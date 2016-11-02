@@ -12,6 +12,7 @@ class DataArray():
 		print "\n<========= Initializing Access File Method =========>\n"
 		self.accessFiles()
 		print "\n<========== Preparing for text extraction ==========>\n"
+		print "		_*_ Note: This may take a few momments"
 		self.fileExtraction()
 
 	# Returns all of the files in the specified url.
@@ -20,11 +21,13 @@ class DataArray():
 
 	# Gets the text from all of the text files in the given url
 	def fileExtraction(self):
-		self.fullText = " "
+		self.fullText = ""
 		for file in self.available_files:
-			setURL = self.url+"/"+file
-			data = urllib2.urlopen(setURL)
-			self.fullText = self.fullText+data
+			setURL = self.url+"/"+str(file)
+			dataLines = urllib2.urlopen(setURL)
+			for line in dataLines:
+				self.fullText = self.fullText+str(line)
+
 	# gets all of the available text files in the url
 	def accessFiles(self):
 		for line in self.data:
@@ -32,4 +35,4 @@ class DataArray():
                                 for word in line.split():
                                         if "txt" in word:
                                                 txtFile=word[word.index('>')+1:len(word)-4]
-						self.available_files.append([txtFile])
+						self.available_files.append(txtFile)
